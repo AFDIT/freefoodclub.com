@@ -161,6 +161,17 @@
       display: flex; align-items: center; justify-content: center; z-index: 2;
     }
     .pin::after { content: ''; width: 5px; height: 5px; border-radius: 50%; background: white; }
+    /* Blue user location dot */
+    .user-dot {
+      position: absolute; z-index: 3;
+      width: 16px; height: 16px; border-radius: 50%;
+      background: #4285F4; border: 3px solid white;
+      box-shadow: 0 0 0 6px rgba(66,133,244,0.15), 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .user-dot::after {
+      content: ''; position: absolute; inset: -9px; border-radius: 50%;
+      background: rgba(66,133,244,0.08);
+    }
     .topbar {
       position: absolute; top: 48px; left: 10px; right: 10px; height: 36px;
       background: rgba(255,255,255,0.95); border-radius: 18px;
@@ -277,10 +288,14 @@
             <div class="map-block" style="top:218px;left:58px;width:66px;height:74px;"></div>
             <div class="map-block" style="top:218px;left:136px;width:52px;height:74px;"></div>
             <div class="map-block" style="top:308px;left:58px;width:66px;height:64px;"></div>
-            <div class="pin" style="top:165px;left:78px;"></div>
-            <div class="pin" style="top:252px;left:148px;"></div>
-            <div class="pin" style="top:335px;left:82px;"></div>
-            <div class="pin" style="top:358px;left:200px;"></div>
+            <!-- User location — blue dot, centre of map -->
+            <div class="user-dot" style="top:245px;left:112px;"></div>
+            <!-- Food pins surrounding the user -->
+            <div class="pin" style="top:145px;left:70px;"></div>
+            <div class="pin" style="top:170px;left:180px;"></div>
+            <div class="pin" style="top:310px;left:60px;"></div>
+            <div class="pin" style="top:290px;left:185px;"></div>
+            <div class="pin" style="top:350px;left:130px;"></div>
             <div class="topbar">
               <span class="topbar-title">Free Food Club</span>
               <div class="topbar-avatar">AF</div>
