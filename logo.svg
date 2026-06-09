@@ -1,0 +1,6 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Free Food Club">
+  <rect width="200" height="200" rx="44" fill="#5FB47C"/>
+  <path d="M100 38 C64 38 39 65 39 98 C39 141 100 174 100 174 C100 174 161 141 161 98 C161 65 136 38 100 38 Z" fill="none" stroke="#ffffff" stroke-width="7"/>
+  <path d="M100 80 C87 73 71 80 71 95 C71 111 86 121 100 121 C114 121 129 111 129 95 C129 80 113 73 100 80 Z" fill="none" stroke="#ffffff" stroke-width="6"/>
+  <path d="M100 80 C100 71 105 65 114 64" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round"/>
+</svg>
