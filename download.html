@@ -108,6 +108,20 @@
       font-size: 14px; color: var(--text-secondary);
     }
 
+    /* Spread the word — flyer */
+    .dl-spread {
+      max-width: 860px; margin: 48px auto 0; padding: 40px 24px 0;
+      text-align: center; border-top: 1px solid var(--border);
+    }
+    .dl-spread h2 { font-size: 26px; font-weight: 700; margin-bottom: 10px; }
+    .dl-spread p { font-size: 15px; color: var(--text-secondary); max-width: 480px; margin: 0 auto 22px; }
+    .spread-btn {
+      display: inline-flex; align-items: center; gap: 8px; padding: 13px 26px;
+      background: var(--green); color: #fff; border-radius: 24px;
+      font-size: 15px; font-weight: 600; text-decoration: none; transition: background 0.2s;
+    }
+    .spread-btn:hover { background: #245a42; }
+
     footer {
       padding: 32px 80px; border-top: 1px solid var(--border);
       display: flex; align-items: center; justify-content: space-between; margin-top: 72px;
@@ -173,6 +187,12 @@
   </section>
 
   <p class="dl-tip">Sharing in person? Have someone scan the App Store QR above — it opens the listing straight on their phone.</p>
+
+  <section class="dl-spread">
+    <h2>Spread the word</h2>
+    <p>Got a café, office, or community noticeboard? Print a free A4 flyer with a QR code that links straight back here.</p>
+    <a class="spread-btn" href="flyer-minimal.html" target="_blank" rel="noopener">Download a flyer →</a>
+  </section>
 
   <footer>
     <div class="footer-left">
