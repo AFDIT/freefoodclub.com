@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Food Club — Flyer (phone)</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root { --green:#2D6A4F; --green-light:#5EB878; --green-bg:#D8EADA; --orange:#E8913A; --ink:#141414; --muted:#5A5A5A; }
+  html, body { background:#ECECEC; font-family:'Inter',system-ui,sans-serif; color:var(--ink); }
+
+  .printbtn { position:fixed; right:20px; bottom:20px; z-index:50; font:inherit; font-weight:700; font-size:14px;
+    background:var(--green-light); color:#08110b; border:0; padding:11px 22px; border-radius:999px; cursor:pointer;
+    box-shadow:0 4px 16px rgba(0,0,0,0.25); }
+  .printbtn:hover { background:#6cc787; }
+
+  .page { width:210mm; height:297mm; margin:24px auto; background:#fff; position:relative; overflow:hidden;
+    box-shadow:0 8px 40px rgba(0,0,0,0.18); display:flex; flex-direction:column; padding:14mm 16mm 13mm; }
+
+  /* Header: logo left, QR + url right, same line */
+  .head { display:flex; justify-content:space-between; align-items:center; gap:12mm; }
+  .brand { display:flex; align-items:center; gap:14px; }
+  .brand .mark { width:62px; height:62px; display:block; }
+  .brand .name { font-size:27px; font-weight:800; letter-spacing:-0.01em; color:var(--green); }
+  .qrbox { text-align:center; flex-shrink:0; }
+  .qrbox .qr { width:30mm; height:30mm; display:block; }
+  .qrbox .url { font-size:13px; font-weight:800; color:var(--ink); margin-top:5px; }
+
+  /* Body: copy left, phone right */
+  .body { display:flex; align-items:center; gap:8mm; margin-top:10mm; }
+  .copy { flex:1; }
+  .copy h1 { font-size:50px; line-height:1.04; font-weight:900; letter-spacing:-0.025em; margin-bottom:16px; max-width:12ch; }
+  .copy h1 em { font-style:normal; color:var(--green); }
+  .copy .lede { font-size:20px; line-height:1.45; color:var(--muted); font-weight:500; max-width:22ch; }
+
+  /* Impact stats — website copy */
+  .impact { margin-top:auto; display:flex; gap:8mm; border-top:2px solid #ECECEC; padding-top:9mm; }
+  .stat { flex:1; }
+  .stat .v { font-size:40px; font-weight:900; color:var(--green); line-height:1; letter-spacing:-0.02em; margin-bottom:6px; }
+  .stat .l { font-size:13px; line-height:1.4; color:var(--muted); font-weight:500; }
+
+  /* ===== Phone mockup (static map screen, from homepage) ===== */
+  .phone { width:260px; height:520px; position:relative; flex-shrink:0; }
+  .phone-body { position:absolute; inset:0; background:#1E1E1E; border-radius:44px;
+    box-shadow:0 20px 50px rgba(0,0,0,0.20), 0 4px 12px rgba(0,0,0,0.08); }
+  .phone-body::after { content:''; position:absolute; right:-3px; top:160px; width:3px; height:44px; background:#2A2A2A; border-radius:0 2px 2px 0; }
+  .side-btn { position:absolute; left:-3px; width:3px; background:#2A2A2A; border-radius:2px 0 0 2px; }
+  .side-btn-1{top:130px;height:22px;} .side-btn-2{top:168px;height:34px;} .side-btn-3{top:212px;height:34px;}
+  .phone-screen { position:absolute; top:8px; left:8px; right:8px; bottom:8px; border-radius:38px; overflow:hidden; background:#F5F5F3; }
+  .dynamic-island { position:absolute; top:10px; left:50%; transform:translateX(-50%); width:90px; height:26px; background:#0A0A0A; border-radius:13px; z-index:20; }
+  .status-bar { position:absolute; top:0; left:0; right:0; height:44px; z-index:19;
+    background:linear-gradient(to bottom,#F5F5F3 70%,transparent); display:flex; align-items:flex-start; justify-content:space-between; padding:12px 20px 0; }
+  .status-time { font-size:11px; font-weight:600; color:var(--ink); }
+
+  .map-bg { width:100%; height:100%; position:relative; }
+  .map-road { position:absolute; background:#E8E8E6; }
+  .map-road-h { height:3px; width:100%; }
+  .map-road-v { width:3px; height:100%; }
+  .map-area { position:absolute; border-radius:50%; opacity:0.12; }
+  .map-block { position:absolute; background:#EEEDEC; border-radius:2px; }
+  .pin { position:absolute; width:22px; height:22px; border-radius:50%; background:var(--orange); border:2px solid #fff;
+    box-shadow:0 2px 5px rgba(0,0,0,0.12); display:flex; align-items:center; justify-content:center; z-index:2; }
+  .pin::after { content:''; width:5px; height:5px; border-radius:50%; background:#fff; }
+  .user-dot { position:absolute; z-index:3; width:16px; height:16px; border-radius:50%; background:#4285F4; border:3px solid #fff;
+    box-shadow:0 0 0 6px rgba(66,133,244,0.15), 0 2px 4px rgba(0,0,0,0.1); }
+  .user-dot::after { content:''; position:absolute; inset:-9px; border-radius:50%; background:rgba(66,133,244,0.08); }
+  .topbar { position:absolute; top:48px; left:10px; right:10px; height:36px; background:rgba(255,255,255,0.95);
+    border-radius:18px; display:flex; align-items:center; justify-content:space-between; padding:0 12px; box-shadow:0 2px 8px rgba(0,0,0,0.05); z-index:3; }
+  .topbar-title { font-size:10px; font-weight:700; color:var(--green); }
+  .topbar-avatar { width:22px; height:22px; border-radius:50%; background:var(--orange); display:flex; align-items:center; justify-content:center; font-size:8px; font-weight:600; color:#fff; }
+  .camera-fab { position:absolute; bottom:14px; left:50%; transform:translateX(-50%); width:38px; height:38px; border-radius:50%;
+    background:var(--green); display:flex; align-items:center; justify-content:center; box-shadow:0 3px 8px rgba(0,0,0,0.15); z-index:3; }
+  .camera-icon { width:15px; height:11px; background:#fff; border-radius:2px; position:relative; }
+  .camera-icon::before { content:''; position:absolute; top:-3px; left:50%; transform:translateX(-50%); width:6px; height:3px; background:#fff; border-radius:1px; }
+  .camera-icon::after { content:''; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:4px; height:4px; border-radius:50%; background:var(--green); }
+
+  /* Listing detail sheet (slid up — the "tapped a pin" state) */
+  .listing-sheet { position:absolute; bottom:0; left:0; right:0; z-index:7; background:#fff; border-radius:16px 16px 0 0;
+    box-shadow:0 -6px 24px rgba(0,0,0,0.1); padding:10px 14px 14px; }
+  .sheet-handle { width:32px; height:4px; background:#DDD; border-radius:2px; margin:0 auto 8px; }
+  .sheet-photo { width:100%; height:70px; background:#FDE8D0; border-radius:10px; margin-bottom:8px; display:flex; align-items:center; justify-content:center; font-size:32px; }
+  .sheet-title { font-size:11px; font-weight:700; color:var(--ink); margin-bottom:4px; }
+  .sheet-meta-row { display:flex; align-items:center; gap:6px; margin-bottom:4px; }
+  .sheet-avatar { width:16px; height:16px; border-radius:50%; background:var(--orange); display:flex; align-items:center; justify-content:center; font-size:6px; font-weight:600; color:#fff; }
+  .sheet-poster { font-size:8px; font-weight:600; color:var(--ink); }
+  .sheet-time { font-size:7px; color:var(--muted); }
+  .sheet-chip { font-size:7px; font-weight:600; color:var(--green); background:var(--green-bg); border-radius:8px; padding:2px 6px; margin-left:auto; }
+  .sheet-desc { font-size:8px; color:var(--muted); line-height:1.4; margin-bottom:8px; }
+  .sheet-btn { width:100%; padding:8px; background:var(--green); border-radius:14px; text-align:center; font-size:9px; font-weight:600; color:#fff; }
+
+  @media print {
+    html, body { background:#fff; }
+    .printbtn { display:none !important; }
+    .page { width:auto; height:auto; min-height:100vh; margin:0; box-shadow:none; }
+    * { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  }
+  @page { size:A4; margin:0; }
+</style>
+</head>
+<body>
+  <button class="printbtn" onclick="window.print()">Print / Save as PDF</button>
+
+  <div class="page">
+    <!-- Header: logo + QR/url on one line -->
+    <div class="head">
+      <div class="brand">
+        <svg class="mark" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-label="Free Food Club">
+          <rect width="200" height="200" rx="44" fill="#2D6A4F"/>
+          <path d="M100 38 C64 38 39 65 39 98 C39 141 100 174 100 174 C100 174 161 141 161 98 C161 65 136 38 100 38 Z" fill="none" stroke="#fff" stroke-width="7"/>
+          <path d="M100 80 C87 73 71 80 71 95 C71 111 86 121 100 121 C114 121 129 111 129 95 C129 80 113 73 100 80 Z" fill="none" stroke="#fff" stroke-width="6"/>
+          <path d="M100 80 C100 71 105 65 114 64" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round"/>
+        </svg>
+        <span class="name">Free Food Club</span>
+      </div>
+      <div class="qrbox">
+        <svg class="qr" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 410 410"><g transform="scale(10)"><path fill="#fff" d="M0 0h41v41h-41z"/><path stroke="#141414" d="M2 2.5h7m2 0h1m3 0h2m4 0h1m1 0h4m2 0h2m1 0h7m-37 1h1m5 0h1m1 0h1m2 0h1m2 0h2m4 0h3m1 0h1m5 0h1m5 0h1m-37 1h1m1 0h3m1 0h1m2 0h3m2 0h1m1 0h1m1 0h5m1 0h1m2 0h1m2 0h1m1 0h3m1 0h1m-37 1h1m1 0h3m1 0h1m2 0h1m2 0h1m1 0h1m1 0h2m1 0h2m2 0h4m1 0h1m1 0h1m1 0h3m1 0h1m-37 1h1m1 0h3m1 0h1m2 0h1m1 0h2m1 0h2m1 0h1m1 0h1m1 0h3m1 0h3m2 0h1m1 0h3m1 0h1m-37 1h1m5 0h1m1 0h3m1 0h1m2 0h1m1 0h2m1 0h1m2 0h1m1 0h2m1 0h1m1 0h1m5 0h1m-37 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-29 1h1m1 0h1m1 0h1m4 0h1m1 0h6m1 0h1m-23 1h4m1 0h4m1 0h2m1 0h2m3 0h2m1 0h3m2 0h2m3 0h1m-35 1h1m1 0h1m1 0h1m1 0h5m1 0h1m2 0h1m2 0h2m2 0h2m3 0h1m3 0h3m-35 1h1m1 0h1m2 0h6m6 0h2m4 0h4m1 0h2m1 0h1m1 0h1m-34 1h3m1 0h1m2 0h3m3 0h1m3 0h4m2 0h1m2 0h1m2 0h1m1 0h2m1 0h1m1 0h1m-37 1h1m5 0h4m1 0h2m2 0h1m1 0h1m1 0h1m3 0h2m2 0h1m1 0h3m2 0h1m1 0h1m-35 1h1m1 0h1m2 0h1m1 0h4m1 0h2m3 0h3m1 0h1m1 0h5m2 0h1m1 0h1m-35 1h2m2 0h4m1 0h2m1 0h3m1 0h1m3 0h1m1 0h1m1 0h1m1 0h2m2 0h5m-35 1h1m2 0h1m3 0h2m1 0h1m1 0h2m1 0h2m2 0h2m1 0h1m3 0h1m3 0h3m1 0h1m-35 1h2m2 0h4m1 0h7m2 0h1m4 0h1m5 0h3m1 0h4m-35 1h1m2 0h1m2 0h3m2 0h3m2 0h2m3 0h2m1 0h3m3 0h2m-32 1h2m1 0h2m1 0h2m2 0h1m1 0h3m2 0h1m1 0h2m1 0h1m1 0h2m3 0h2m1 0h1m-31 1h2m1 0h2m1 0h1m2 0h1m2 0h1m3 0h3m1 0h1m3 0h2m1 0h2m1 0h3m-34 1h1m1 0h5m2 0h1m3 0h2m2 0h1m1 0h1m1 0h1m4 0h2m3 0h3m-35 1h1m1 0h1m4 0h1m3 0h1m3 0h1m1 0h1m2 0h3m1 0h2m4 0h3m-35 1h3m1 0h6m2 0h1m1 0h3m1 0h1m1 0h1m1 0h1m2 0h4m1 0h1m4 0h1m-35 1h1m1 0h2m3 0h2m2 0h2m1 0h3m1 0h2m2 0h1m1 0h1m2 0h2m1 0h1m2 0h2m-36 1h4m2 0h4m10 0h6m1 0h1m2 0h2m2 0h3m-37 1h3m1 0h1m6 0h1m4 0h1m1 0h2m1 0h2m2 0h2m3 0h1m1 0h1m1 0h1m-32 1h6m2 0h1m1 0h1m3 0h1m2 0h1m4 0h5m3 0h2m-33 1h3m2 0h1m2 0h3m4 0h3m2 0h1m1 0h1m2 0h2m1 0h2m2 0h3m-37 1h2m2 0h3m1 0h1m3 0h1m2 0h3m1 0h1m3 0h2m3 0h8m-28 1h2m1 0h3m5 0h5m1 0h1m1 0h2m3 0h2m-34 1h7m1 0h1m1 0h1m4 0h2m1 0h1m1 0h6m2 0h1m1 0h1m1 0h3m-35 1h1m5 0h1m1 0h1m2 0h1m2 0h1m2 0h1m1 0h2m2 0h1m4 0h1m3 0h1m1 0h3m-37 1h1m1 0h3m1 0h1m1 0h2m3 0h2m1 0h1m3 0h2m4 0h1m1 0h7m1 0h1m-37 1h1m1 0h3m1 0h1m2 0h1m1 0h2m2 0h1m2 0h1m1 0h3m1 0h1m1 0h3m1 0h2m1 0h1m-34 1h1m1 0h3m1 0h1m3 0h1m3 0h1m1 0h4m1 0h1m1 0h4m3 0h1m2 0h1m1 0h1m-36 1h1m5 0h1m5 0h2m6 0h2m1 0h1m2 0h2m3 0h1m2 0h2m-36 1h7m2 0h1m1 0h4m2 0h1m1 0h1m1 0h1m2 0h1m2 0h1m2 0h1m3 0h3"/></g></svg>
+        <div class="url">freefoodclub.com</div>
+      </div>
+    </div>
+
+    <!-- Body: copy + phone -->
+    <div class="body">
+      <div class="copy">
+        <h1>Grow your community through <em>free food</em></h1>
+        <p class="lede">Share surplus food with neighbours nearby. Free. local. simple.</p>
+      </div>
+
+      <div class="phone">
+        <div class="phone-body">
+          <div class="side-btn side-btn-1"></div>
+          <div class="side-btn side-btn-2"></div>
+          <div class="side-btn side-btn-3"></div>
+        </div>
+        <div class="phone-screen">
+          <div class="dynamic-island"></div>
+          <div class="status-bar"><span class="status-time">9:41</span></div>
+          <div class="map-bg">
+            <div class="map-area" style="width:170px;height:130px;top:60px;left:-25px;background:#5EB878;"></div>
+            <div class="map-area" style="width:140px;height:110px;top:300px;right:-25px;background:#7CB9E8;"></div>
+            <div class="map-road map-road-h" style="top:130px;"></div>
+            <div class="map-road map-road-h" style="top:210px;"></div>
+            <div class="map-road map-road-h" style="top:300px;"></div>
+            <div class="map-road map-road-h" style="top:380px;"></div>
+            <div class="map-road map-road-v" style="left:52px;"></div>
+            <div class="map-road map-road-v" style="left:130px;"></div>
+            <div class="map-road map-road-v" style="left:195px;"></div>
+            <div class="map-block" style="top:138px;left:58px;width:66px;height:64px;"></div>
+            <div class="map-block" style="top:138px;left:136px;width:52px;height:64px;"></div>
+            <div class="map-block" style="top:218px;left:58px;width:66px;height:74px;"></div>
+            <div class="map-block" style="top:218px;left:136px;width:52px;height:74px;"></div>
+            <div class="map-block" style="top:308px;left:58px;width:66px;height:64px;"></div>
+            <div class="user-dot" style="top:245px;left:112px;"></div>
+            <div class="pin" style="top:145px;left:70px;"></div>
+            <div class="pin" style="top:170px;left:180px;"></div>
+            <div class="pin" style="top:310px;left:60px;"></div>
+            <div class="pin" style="top:290px;left:185px;"></div>
+            <div class="pin" style="top:350px;left:130px;"></div>
+            <div class="pin" style="top:200px;left:145px;"></div>
+            <div class="topbar">
+              <span class="topbar-title">Free Food Club</span>
+              <div class="topbar-avatar">AF</div>
+            </div>
+            <div class="camera-fab"><div class="camera-icon"></div></div>
+            <!-- Listing sheet up: user has tapped a pin -->
+            <div class="listing-sheet">
+              <div class="sheet-handle"></div>
+              <div class="sheet-photo">🍞</div>
+              <div class="sheet-title">Sourdough bread x2</div>
+              <div class="sheet-meta-row">
+                <div class="sheet-avatar">M</div>
+                <div>
+                  <div class="sheet-poster">Shared by Maria</div>
+                  <div class="sheet-time">5 min ago</div>
+                </div>
+                <div class="sheet-chip">📍 0.3km</div>
+              </div>
+              <div class="sheet-desc">Fresh from the oven, still warm! Collect from the front porch.</div>
+              <div class="sheet-btn">I'll take some →</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Built for impact (website copy) -->
+    <div class="impact">
+      <div class="stat"><div class="v">24hr</div><div class="l">Listings auto-expire to keep food fresh</div></div>
+      <div class="stat"><div class="v">2km</div><div class="l">Default radius for truly local sharing</div></div>
+      <div class="stat"><div class="v">Free</div><div class="l">No cost, no fees, no catches. Ever.</div></div>
+    </div>
+  </div>
+</body>
+</html>
