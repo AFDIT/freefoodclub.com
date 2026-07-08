@@ -1,0 +1,13 @@
+#!/bin/bash
+# Pre-commit: gitleaks secret scan (GhostMachineProjects/ops#62).
+# Blocks any commit whose staged changes contain a possible secret.
+if command -v gitleaks >/dev/null 2>&1; then
+  if ! gitleaks git --pre-commit --staged --redact --no-banner; then
+    echo "" >&2
+    echo "BLOCKED: gitleaks found a possible secret in staged changes." >&2
+    echo "Remove it, or allowlist a confirmed false positive in .gitleaks.toml." >&2
+    exit 2
+  fi
+else
+  echo "WARN: gitleaks not installed (brew install gitleaks) — secret scan SKIPPED" >&2
+fi
